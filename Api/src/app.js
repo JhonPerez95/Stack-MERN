@@ -1,4 +1,5 @@
 const express = require("express");
+const { connectDB } = require("./database");
 
 const cors = require("cors"); // Para comunicarse en dos servidores
 
@@ -13,10 +14,10 @@ port = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Router
-app.use(require("./routes/index"));
-
 // Database
 require("./database");
+
+// Router
+app.use(require("./routes/index"));
 
 module.exports = app;

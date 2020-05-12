@@ -39,13 +39,21 @@ noteCtrl.saveNote = async (req, res) => {
     date: body.date,
   });
 
-  const noteDb = await note.save();
+  try {
+    const noteDb = await note.save();
 
-  res.json({
-    ok: true,
-    message: "Saved Note",
-    noteDb,
-  });
+    res.json({
+      ok: true,
+      message: "Saved Note",
+      noteDb,
+    });
+  } catch (error) {
+    res.status(400).json({
+      ok: false,
+      message: "Could not Save !!!",
+      error,
+    });
+  }
 };
 
 // PUT
@@ -63,6 +71,7 @@ noteCtrl.updateNote = async (req, res) => {
   } catch (error) {
     res.json({
       ok: false,
+      message: "Could not Updated !!!",
       error,
     });
   }
@@ -72,12 +81,20 @@ noteCtrl.updateNote = async (req, res) => {
 noteCtrl.deleteNote = async (req, res) => {
   const id = req.params.id;
 
-  const noteDelt = await Note.findByIdAndDelete(id);
-  res.json({
-    ok: true,
-    message: `Note deleted`,
-    noteDelt,
-  });
+  try {
+    const noteDelt = await Note.findByIdAndDelete(id);
+    res.json({
+      ok: true,
+      message: `Note deleted`,
+      noteDelt,
+    });
+  } catch (error) {
+    es.json({
+      ok: false,
+      message: "Could not Deleted !!!",
+      error,
+    });
+  }
 };
 
 module.exports = noteCtrl;
